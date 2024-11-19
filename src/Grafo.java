@@ -32,6 +32,7 @@ public class Grafo{
     }
 
     // -------- ***** ----------
+
     public int contarNumeroArestas(){
         int contadorArestas = 0;
         for(int i = 0; i < numeroVertices; i++){
@@ -64,10 +65,21 @@ public class Grafo{
                 vizinhos.add(i + 1);
             }
         }
-        
         return vizinhos;
     }
     
+    public int grauVertice(int vertice){
+        int contadorGrau = 0;
+        
+        for(int i = 0; i < this.numeroVertices; i++){
+            if(matrizValores[vertice - 1][i] != 0 && vertice - 1 != i){
+                contadorGrau++;
+            }
+        }
+        return contadorGrau;
+        //Tentar simplificar
+        //return ((ArrayList<Integer>)vizinhos(vertice)).lenght();
+    }
     
 
     
@@ -88,12 +100,16 @@ public class Grafo{
         Locale.setDefault(Locale.US);
         Grafo grafo = new Grafo("./dados/grafo.txt");
         grafo.mostrarMatriz();
+            
         System.out.printf("Número de Vértices: %d\n", grafo.getOrdem());
         System.out.printf("Número de Arestas: %d\n ", grafo.getTamanho());
         System.out.printf("Densidade do Grafo: %.2f\n", grafo.getDensidade());
+
         int vertice = 1;
         List<Integer> vizinhos = grafo.vizinhos(vertice);
-        System.out.printf("Vizinhos do Vértice %d: %s", vertice, vizinhos);
+        System.out.printf("Vizinhos do Vértice %d: %s\n", vertice, vizinhos);
+        
+        System.out.printf("Grau do vértice %d: %d", vertice, grafo.grauVertice(vertice));
     }
 
 }
