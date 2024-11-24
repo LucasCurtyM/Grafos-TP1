@@ -29,6 +29,9 @@ public class Menu {
             System.out.println("4- Densidade ε(G) do grafo: ");
             System.out.println("5- Vizinhos do vértice V: ");
             System.out.println("6- Grau do vértice V: ");
+            System.out.println("7- Verifica se o vértice V é articulação: ");
+            System.out.println("8- Verifica arestas fora da árvore de busca em largura e ordem seguida a partir do vértice V: ");
+            System.out.println("9- Verifica as componentes conexas partir do vértice V: ");
             System.out.println("0- Sair");
 
             escolha = scanner.nextInt();
@@ -73,6 +76,61 @@ public class Menu {
                         break;
                     }
                     System.out.printf("Grau de V(%d): %d\n\n\n", escolhaVertice, grafo.grauVertice(escolhaVertice));
+                    break;
+                case 7:
+                    limparTela();
+                    System.out.println("Escolha o Vértice V: ");
+                    escolhaVertice = scanner.nextInt();
+                    if(escolhaVertice > grafo.getOrdem() || escolhaVertice < 1){
+                        limparTela();
+                        System.out.printf("Valor inválido para Vértice, V(%d) não existe no grafo!\n\n\n", escolhaVertice);
+                        break;
+                    }
+                   if(grafo.verificaArticulacao(escolhaVertice)){
+                       System.out.printf("O vértice "+ escolhaVertice +" é articulação!\n\n\n");
+                   }else {
+                       System.out.printf("O vértice "+ escolhaVertice +" não é articulação!\n\n\n");
+                   }
+                    break;
+                case 8:
+                    limparTela();
+                    System.out.println("Escolha o Vértice V: ");
+                    escolhaVertice = scanner.nextInt();
+                    if(escolhaVertice > grafo.getOrdem() || escolhaVertice < 1){
+                        limparTela();
+                        System.out.printf("Valor inválido para Vértice, V(%d) não existe no grafo!\n\n\n", escolhaVertice);
+                        break;
+                    }
+
+                    List<String> foraDaArvore = grafo.arestasForaArvoreLargura(escolhaVertice);
+                    List<Integer> verticesVisitados = grafo.ordemVerticesVisitados(escolhaVertice);
+
+                    System.out.println("\nA ordem dos vértices visitados foi");
+                    for (int i = 0; i<verticesVisitados.size(); i++) {
+                        System.out.print(verticesVisitados.get(i));
+                        if (i<verticesVisitados.size()-1){
+                            System.out.print(" -> ");
+                        }
+                    }
+                    System.out.println("\n");
+
+                    System.out.println("\nArestas não visitadas");
+                    for (String aresta : foraDaArvore) {
+                        System.out.println(aresta);
+                    }
+                    System.out.println("\n\n\n");
+                    break;
+                case 9:
+                    limparTela();
+
+                    List<List<Integer>> componentes = grafo.componentesConexas();
+
+                    System.out.println("Número de componentes conexas: " + componentes.size());
+                    for (int i = 0; i < componentes.size(); i++) {
+                        System.out.println("Componente " + (i + 1) + ": " + componentes.get(i));
+                    }
+
+                    System.out.println("\n\n\n");
                     break;
                 case 0:
                     limparTela();
