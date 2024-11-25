@@ -32,6 +32,7 @@ public class Menu {
             System.out.println("7- Verifica se o vértice V é articulação: ");
             System.out.println("8- Verifica arestas fora da árvore de busca em largura e ordem seguida a partir do vértice V: ");
             System.out.println("9- Verifica as componentes conexas partir do vértice V: ");
+            System.out.println("10- Verifica se há ciclos no grafo: ");
             System.out.println("0- Sair");
 
             escolha = scanner.nextInt();
@@ -140,6 +141,17 @@ public class Menu {
                 default:
                     limparTela();
                     System.out.println("Opção inválida!\n\n\n");
+                    break;
+                case 10:
+                    limparTela();
+
+                    if (grafo.verificaCiclos()){
+                        System.out.println("O grafo possui ciclos!\n\n\n");
+                    }else {
+                        System.out.println("O grafo não possui ciclos!\n\n\n");
+                    }
+
+
                     break;
             }
         } while (escolha != 0);

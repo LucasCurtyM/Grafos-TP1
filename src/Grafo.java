@@ -18,6 +18,7 @@ public class Grafo{
         }
     }
 
+
     // -------- Getters ---------
     public int getOrdem(){
         return this.numeroVertices;
@@ -29,6 +30,13 @@ public class Grafo{
         return this.densidade;
     }
 
+    public double[][] getMatrizValores() {
+        return matrizValores;
+    }
+
+    public void setMatrizValores(double[][] matrizValores) {
+        this.matrizValores = matrizValores;
+    }
     // -------- ***** ----------
 
     public int contarNumeroArestas(){
@@ -124,7 +132,12 @@ public class Grafo{
     }
 
     public List<String> arestasForaArvoreLargura(int verticeInicial) {
-        double[][] matrizVerificação = this.matrizValores;
+        double[][] matrizVerificação = new double[this.numeroVertices][this.numeroVertices];
+        for (int i = 0; i < this.numeroVertices; i++) {
+            matrizVerificação[i] = this.matrizValores[i].clone();
+        }
+
+
         boolean[] visitados = new boolean[this.numeroVertices];
         List<String> arestasNaoNaArvore = new ArrayList<>();
         Queue<Integer> fila = new LinkedList<>();
@@ -180,8 +193,6 @@ public class Grafo{
                 }
             }
         }
-
-
         return ordemVisitados;
     }
 
@@ -212,6 +223,78 @@ public class Grafo{
         }
     }
 
+    /*public boolean verificaCiclos(int verticeInicial) {
+        boolean[] visitados = new boolean[this.numeroVertices];
+        Queue<Integer> fila = new LinkedList<>();
+
+        fila.add(verticeInicial);
+        visitados[verticeInicial - 1] = true;
+
+        while (!fila.isEmpty()) {
+            int verticeAtual = fila.poll();
+
+            for (int vizinho = 1; vizinho <= this.numeroVertices; vizinho++) {
+                if (this.matrizValores[verticeAtual - 1][vizinho - 1] != 0.0) {
+                    if (!visitados[vizinho - 1]) {
+                        fila.add(vizinho);
+                        visitados[vizinho - 1] = true;
+                }
+                    if(visitados[vizinho - 1] && verticeAtual != (vizinho)){
+                         return true;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i<visitados.length; i++){
+            if (!visitados[i]){
+                if(verificaCiclos(i)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }*/
+
+    public boolean verificaCiclos() {
+        boolean[] visitados = new boolean[this.numeroVertices];
+        int[] pais = new int[this.numeroVertices];
+        Arrays.fill(pais, -1); // Inicializa os pais como -1
+
+        // Verifica ciclos em todas as componentes conexas do grafo
+        for (int verticeInicial = 1; verticeInicial <= this.numeroVertices; verticeInicial++) {
+            if (!visitados[verticeInicial - 1]) { // Se o vértice ainda não foi visitado
+                if (buscaProfundidadeDetectaCiclo(verticeInicial, visitados, pais)) {
+                    return true; // Ciclo encontrado
+                }
+            }
+        }
+        return false; // Nenhum ciclo encontrado
+    }
+
+    private boolean buscaProfundidadeDetectaCiclo(int verticeInicial, boolean[] visitados, int[] pais) {
+        Queue<Integer> fila = new LinkedList<>();
+        fila.add(verticeInicial);
+        visitados[verticeInicial - 1] = true;
+
+        while (!fila.isEmpty()) {
+            int verticeAtual = fila.poll();
+
+            for (int vizinho = 1; vizinho <= this.numeroVertices; vizinho++) {
+                if (this.matrizValores[verticeAtual - 1][vizinho - 1] != 0.0) { // Há uma aresta
+                    if (!visitados[vizinho - 1]) { // Vizinho não visitado
+                        fila.add(vizinho);
+                        visitados[vizinho - 1] = true;
+                        pais[vizinho - 1] = verticeAtual; // Define o pai do vizinho
+                    } else if (pais[verticeAtual - 1] != vizinho) { // Vizinho visitado, mas não é pai
+                        return true; // Ciclo encontrado
+                    }
+                }
+            }
+        }
+        return false; // Nenhum ciclo encontrado nesta componente
+    }
 
 
     //TESTE DA CLASSE
