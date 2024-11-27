@@ -5,6 +5,7 @@ public class Grafo{
     private int numeroVertices;
     private int numeroArestas;
     private double densidade;
+    
     public Grafo(String enderecoArquivoEntrada){
         try{
             LeitorArquivo arquivo = new LeitorArquivo(enderecoArquivoEntrada);
@@ -266,11 +267,13 @@ public class Grafo{
         for (int verticeInicial = 1; verticeInicial <= this.numeroVertices; verticeInicial++) {
             if (!visitados[verticeInicial - 1]) { // Se o vértice ainda não foi visitado
                 if (buscaProfundidadeDetectaCiclo(verticeInicial, visitados, pais)) {
-                    return true; // Ciclo encontrado
+                    //Ciclo encontrado
+                    return true;
                 }
             }
         }
-        return false; // Nenhum ciclo encontrado
+        //Nenhum ciclo encontrado
+        return false;
     }
 
     private boolean buscaProfundidadeDetectaCiclo(int verticeInicial, boolean[] visitados, int[] pais) {
@@ -297,10 +300,67 @@ public class Grafo{
     }
 
 
+
+    public void caminhoMinimo(int verticeInicial) {
+        double[] distancias = new double[this.numeroVertices];
+        int[] predecessores = new int[this.numeroVertices];
+
+        // Inicialização: distância infinita e nenhum predecessor
+        Arrays.fill(distancias, Double.POSITIVE_INFINITY);
+        Arrays.fill(predecessores, -1);
+
+        // A distância do vértice inicial para ele mesmo é 0
+        distancias[verticeInicial - 1] = 0;
+
+        // Relaxamento das arestas
+        for (int i = 1; i <= this.numeroVertices - 1; i++) {
+            for (int u = 0; u < this.numeroVertices; u++) {
+                for (int v = 0; v < this.numeroVertices; v++) {
+                    if (this.matrizValores[u][v] != 0.0) { // Existe aresta (u, v)
+                        double peso = this.matrizValores[u][v];
+                        if (distancias[u] + peso < distancias[v]) {
+                            distancias[v] = distancias[u] + peso;
+                            predecessores[v] = u;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Verificação de ciclos negativos
+        for (int u = 0; u < this.numeroVertices; u++) {
+            for (int v = 0; v < this.numeroVertices; v++) {
+                if (this.matrizValores[u][v] != 0.0) {
+                    double peso = this.matrizValores[u][v];
+                    if (distancias[u] + peso < distancias[v]) {
+                        System.out.println("O grafo contém um ciclo de peso negativo.");
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Exibição dos resultados
+        System.out.println("Resultados de Bellman-Ford para o vértice inicial " + verticeInicial + ":");
+        for (int v = 0; v < this.numeroVertices; v++) {
+            System.out.printf("Distância para o vértice %d: %.2f, Caminho: %s\n",
+                    v + 1, distancias[v], reconstruirCaminho(predecessores, v));
+        }
+    }
+
+    private String reconstruirCaminho(int[] predecessores, int vertice) {
+        List<Integer> caminho = new ArrayList<>();
+        for (int v = vertice; v != -1; v = predecessores[v]) {
+            caminho.add(v + 1); // Adiciona 1 para ajustar ao índice baseado em 1
+        }
+        Collections.reverse(caminho);
+        return caminho.toString();
+    }
+
     //TESTE DA CLASSE
     public static void main(String[] Args){
         Locale.setDefault(Locale.US);
-        Grafo grafo = new Grafo("./dados/grafo.txt");
+        Grafo grafo = new Grafo("./dados/grafo2.txt");
         grafo.mostrarMatriz();
             
         System.out.printf("Número de Vértices: %d\n", grafo.getOrdem());
@@ -313,9 +373,14 @@ public class Grafo{
         
         System.out.printf("Grau do vértice %d: %d\n", vertice, grafo.grauVertice(vertice));
 
-        for (int i=1; i<= grafo.numeroVertices; i++){
-            System.out.println(grafo.verificaArticulacao(i));
-        }
-    }
 
+        if(grafo.verificaCiclos()){
+            System.out.println("O grafo possui ciclos!\n\n\n");
+        }else {
+            System.out.println("O grafo não possui ciclos!\n\n\n");
+        }
+
+        grafo.caminhoMinimo(vertice);        
+    }
 }
+

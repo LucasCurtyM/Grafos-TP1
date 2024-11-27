@@ -33,6 +33,7 @@ public class Menu {
             System.out.println("8- Verifica arestas fora da árvore de busca em largura e ordem seguida a partir do vértice V: ");
             System.out.println("9- Verifica as componentes conexas partir do vértice V: ");
             System.out.println("10- Verifica se há ciclos no grafo: ");
+            System.out.println("11- Distância e Caminho mínimo: ");
             System.out.println("0- Sair");
 
             escolha = scanner.nextInt();
@@ -43,19 +44,23 @@ public class Menu {
                     grafo.mostrarMatriz();
                     System.out.printf("\n\n\n");
                     break;
+
                 case 2:
                     limparTela();
                     System.out.printf("Ordem do Grafo: %d\n\n\n", grafo.getOrdem());
                     break;
+                
                 case 3: 
                     limparTela();   
                     System.out.printf("Tamanho do Grafo: %d\n\n\n", grafo.getTamanho());
                     break;
+                
                 case 4:
                     limparTela();
                     System.out.printf("Densidade do Grafo: %.2f\n\n\n", grafo.densidade());
                     break;
-                case 5:
+          
+                  case 5:
                     limparTela();
                     System.out.println("Escolha o Vértice V: ");
                     int escolhaVertice = scanner.nextInt();
@@ -67,6 +72,7 @@ public class Menu {
                     List<Integer> vizinho = grafo.vizinhos(escolhaVertice);
                     System.out.printf("Vizinhos de V(%d): %s\n\n\n", escolhaVertice, vizinho);
                     break;
+        
                 case 6:
                     limparTela();
                     System.out.println("Escolha o Vértice V: ");
@@ -78,6 +84,7 @@ public class Menu {
                     }
                     System.out.printf("Grau de V(%d): %d\n\n\n", escolhaVertice, grafo.grauVertice(escolhaVertice));
                     break;
+    
                 case 7:
                     limparTela();
                     System.out.println("Escolha o Vértice V: ");
@@ -121,6 +128,7 @@ public class Menu {
                     }
                     System.out.println("\n\n\n");
                     break;
+                
                 case 9:
                     limparTela();
 
@@ -133,25 +141,40 @@ public class Menu {
 
                     System.out.println("\n\n\n");
                     break;
+            
+                case 10:
+                    limparTela();
+                        if(grafo.verificaCiclos()){
+                            System.out.println("O grafo possui ciclos!\n\n\n");
+                        }else{
+                            System.out.println("O grafo não possui ciclos!\n\n\n");
+                        }
+                    break;
+
+                case 11:
+                    limparTela();
+                    
+                    System.out.println("Escolha o Vértice V: ");
+                    int verticeInicial = scanner.nextInt();
+                    if(verticeInicial > grafo.getOrdem() || verticeInicial < 1){
+                        limparTela();
+                        System.out.printf("Valor inválido para Vértice, V(%d) não existe!\n\n\n", verticeInicial);
+                        System.out.println("\n\n\n");
+                        break;
+                    }
+                    grafo.caminhoMinimo(verticeInicial);
+                    System.out.println("\n\n\n");
+                    break;
+
                 case 0:
                     limparTela();
                     System.out.println("Encerrando...\n\n\n");
                     
                     break;
+                    
                 default:
                     limparTela();
                     System.out.println("Opção inválida!\n\n\n");
-                    break;
-                case 10:
-                    limparTela();
-
-                    if (grafo.verificaCiclos()){
-                        System.out.println("O grafo possui ciclos!\n\n\n");
-                    }else {
-                        System.out.println("O grafo não possui ciclos!\n\n\n");
-                    }
-
-
                     break;
             }
         } while (escolha != 0);
