@@ -22,9 +22,11 @@ public class LeitorArquivo {
 
             adicionarValoresNaMatriz(leitorArquivo);
         } catch (IOException e) {
-            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+            System.out.println("Erro ao ler o arquivo de entrada \"" + caminhoArquivo + "\": " + e.getMessage());
+            System.exit(1);
         } catch (NumberFormatException e) {
             System.out.println("Erro ao converter valores numéricos: " + e.getMessage());
+            System.exit(1);
         }
     }
 

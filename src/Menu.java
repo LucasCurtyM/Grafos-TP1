@@ -17,8 +17,7 @@ public class Menu {
 
         System.out.println("Digite o caminho do arquivo de entrada: ");
         String caminhoArquivo = scanner.nextLine();
-        System.out.println(caminhoArquivo);
-
+        System.out.println("\n\n\n");
         Grafo grafo = new Grafo(caminhoArquivo);
         int escolha;
         do {
@@ -40,24 +39,26 @@ public class Menu {
             System.out.println(escolha);
             switch (escolha) {
                 case 1:
-                    limparTela();    
+                    System.out.printf("\n\n\n");
+                    limparTela();
+                    System.out.printf("Matriz de Valores:\n");
                     grafo.mostrarMatriz();
                     System.out.printf("\n\n\n");
                     break;
 
                 case 2:
                     limparTela();
-                    System.out.printf("Ordem do Grafo: %d\n\n\n", grafo.getOrdem());
+                    System.out.printf("\n\n\nOrdem do Grafo: %d\n\n\n", grafo.getOrdem());
                     break;
                 
                 case 3: 
-                    limparTela();   
-                    System.out.printf("Tamanho do Grafo: %d\n\n\n", grafo.getTamanho());
+                    limparTela();
+                    System.out.printf("\n\n\nTamanho do Grafo: %d\n\n\n", grafo.getTamanho());  
                     break;
                 
                 case 4:
                     limparTela();
-                    System.out.printf("Densidade do Grafo: %.2f\n\n\n", grafo.densidade());
+                    System.out.printf("\n\n\nDensidade do Grafo: %.2f\n\n\n", grafo.densidade());
                     break;
           
                   case 5:
@@ -65,12 +66,12 @@ public class Menu {
                     System.out.println("Escolha o Vértice V: ");
                     int escolhaVertice = scanner.nextInt();
                     if(escolhaVertice > grafo.getOrdem() || escolhaVertice < 1){
-                        limparTela();
-                        System.out.printf("Valor inválido para Vértice, V(%d) não existe!\n\n\n", escolhaVertice);
+                        
+                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe!\n\n\n", escolhaVertice);
                         break;
                     }
                     List<Integer> vizinho = grafo.vizinhos(escolhaVertice);
-                    System.out.printf("Vizinhos de V(%d): %s\n\n\n", escolhaVertice, vizinho);
+                    System.out.printf("\n\n\nVizinhos de V(%d): %s\n\n\n", escolhaVertice, vizinho);
                     break;
         
                 case 6:
@@ -78,42 +79,43 @@ public class Menu {
                     System.out.println("Escolha o Vértice V: ");
                     escolhaVertice = scanner.nextInt();
                     if(escolhaVertice > grafo.getOrdem() || escolhaVertice < 1){
-                        limparTela();
-                        System.out.printf("Valor inválido para Vértice, V(%d) não existe no grafo!\n\n\n", escolhaVertice);
+                        
+                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe no grafo!\n\n\n", escolhaVertice);
                         break;
                     }
-                    System.out.printf("Grau de V(%d): %d\n\n\n", escolhaVertice, grafo.grauVertice(escolhaVertice));
+                    System.out.printf("\n\n\nGrau de V(%d): %d\n\n\n", escolhaVertice, grafo.grauVertice(escolhaVertice));
                     break;
     
                 case 7:
                     limparTela();
-                    System.out.println("Escolha o Vértice V: ");
+                    System.out.println("\n\n\nEscolha o Vértice V: ");
                     escolhaVertice = scanner.nextInt();
                     if(escolhaVertice > grafo.getOrdem() || escolhaVertice < 1){
-                        limparTela();
-                        System.out.printf("Valor inválido para Vértice, V(%d) não existe no grafo!\n\n\n", escolhaVertice);
+                        
+                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe no grafo!\n\n\n", escolhaVertice);
                         break;
                     }
                    if(grafo.verificaArticulacao(escolhaVertice)){
-                       System.out.printf("O vértice "+ escolhaVertice +" é articulação!\n\n\n");
+                       System.out.printf("\n\n\nO vértice "+ escolhaVertice +" é articulação!\n\n\n");
                    }else {
-                       System.out.printf("O vértice "+ escolhaVertice +" não é articulação!\n\n\n");
+                       System.out.printf("\n\n\nO vértice "+ escolhaVertice +" não é articulação!\n\n\n");
                    }
                     break;
+
                 case 8:
                     limparTela();
                     System.out.println("Escolha o Vértice V: ");
                     escolhaVertice = scanner.nextInt();
                     if(escolhaVertice > grafo.getOrdem() || escolhaVertice < 1){
-                        limparTela();
-                        System.out.printf("Valor inválido para Vértice, V(%d) não existe no grafo!\n\n\n", escolhaVertice);
+                        
+                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe no grafo!\n\n\n", escolhaVertice);
                         break;
                     }
 
                     List<String> foraDaArvore = grafo.arestasForaArvoreLargura(escolhaVertice);
                     List<Integer> verticesVisitados = grafo.ordemVerticesVisitados(escolhaVertice);
 
-                    System.out.println("\nA ordem dos vértices visitados foi");
+                    System.out.println("\n\n\nA ordem dos vértices visitados foi");
                     for (int i = 0; i<verticesVisitados.size(); i++) {
                         System.out.print(verticesVisitados.get(i));
                         if (i<verticesVisitados.size()-1){
@@ -122,7 +124,7 @@ public class Menu {
                     }
                     System.out.println("\n");
 
-                    System.out.println("\nArestas não visitadas");
+                    System.out.println("\n\n\nArestas não visitadas");
                     for (String aresta : foraDaArvore) {
                         System.out.println(aresta);
                     }
@@ -131,7 +133,7 @@ public class Menu {
                 
                 case 9:
                     limparTela();
-
+                    limparTela();
                     List<List<Integer>> componentes = grafo.componentesConexas();
 
                     System.out.println("Número de componentes conexas: " + componentes.size());
@@ -144,20 +146,19 @@ public class Menu {
             
                 case 10:
                     limparTela();
-                        if(grafo.verificaCiclos()){
-                            System.out.println("O grafo possui ciclos!\n\n\n");
-                        }else{
-                            System.out.println("O grafo não possui ciclos!\n\n\n");
-                        }
+                    if(grafo.verificaCiclos()){
+                        System.out.println("O grafo possui ciclos!\n\n\n");
+                    }else{
+                        System.out.println("O grafo não possui ciclos!\n\n\n");
+                    }
                     break;
 
                 case 11:
                     limparTela();
-                    
                     System.out.println("Escolha o Vértice V: ");
                     int verticeInicial = scanner.nextInt();
                     if(verticeInicial > grafo.getOrdem() || verticeInicial < 1){
-                        limparTela();
+                        
                         System.out.printf("Valor inválido para Vértice, V(%d) não existe!\n\n\n", verticeInicial);
                         System.out.println("\n\n\n");
                         break;
@@ -168,12 +169,12 @@ public class Menu {
 
                 case 0:
                     limparTela();
-                    System.out.println("Encerrando...\n\n\n");
+                    System.out.println("\n\n\nEncerrando...\n\n\n");
                     
                     break;
                     
                 default:
-                    limparTela();
+                    
                     System.out.println("Opção inválida!\n\n\n");
                     break;
             }

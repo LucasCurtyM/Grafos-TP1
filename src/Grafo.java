@@ -84,14 +84,11 @@ public class Grafo{
             }
         }
         return contadorGrau;
-        //Tentar simplificar
-        //return ((ArrayList<Integer>)vizinhos(vertice)).lenght();
     }
 
 
 
     public void mostrarMatriz() {
-        System.out.println("Matriz de Valores:");
         for (int i = 0; i < this.numeroVertices; i++) {
             for (int j = 0; j < this.numeroVertices; j++) {
                 System.out.print(this.matrizValores[i][j] + " ");
@@ -107,14 +104,16 @@ public class Grafo{
         for (int i = 1; i <= this.numeroVertices; i++) { // Começa em 1
             if (i != vertice && !visitados.contains(i)) {
                 buscaProfundidade(i, vertice, visitados);
-                break; // buscaProfundidade começa de apenas um componente
+                 // buscaProfundidade começa de apenas um componente
+                break;
             }
         }
 
         // Verifica se todos os vértices (exceto o removido) foram visitados
         for (int i = 1; i <= this.numeroVertices; i++) { // Começa em 1
             if (i != vertice && !visitados.contains(i)) {
-                return true; // Se algum vértice não foi visitado, é articulação
+                 // Se algum vértice não foi visitado, é articulação
+                return true;
             }
         }
 
@@ -203,10 +202,11 @@ public class Grafo{
 
         // Loop para visitar cada vértice do grafo
         for (int vertice = 1; vertice <= this.numeroVertices; vertice++) {
-            if (!visitados[vertice - 1]) {  // Se o vértice ainda não foi visitado
+             // Se o vértice ainda não foi visitado
+            if (!visitados[vertice - 1]) { 
                 List<Integer> componente = new ArrayList<>();
                 buscaProfundidadeconexa(vertice, visitados, componente);
-                componentes.add(componente);  // Adiciona a componente encontrada à lista de componentes
+                componentes.add(componente); 
             }
         }
         return componentes;
@@ -214,7 +214,7 @@ public class Grafo{
 
     private void buscaProfundidadeconexa(int vertice, boolean[] visitados, List<Integer> componente) {
         visitados[vertice - 1] = true;
-        componente.add(vertice);  // Adiciona o vértice à componente
+        componente.add(vertice);
 
         // Explora os vizinhos do vértice
         for (int vizinho = 1; vizinho <= this.numeroVertices; vizinho++) {
@@ -223,40 +223,6 @@ public class Grafo{
             }
         }
     }
-
-    /*public boolean verificaCiclos(int verticeInicial) {
-        boolean[] visitados = new boolean[this.numeroVertices];
-        Queue<Integer> fila = new LinkedList<>();
-
-        fila.add(verticeInicial);
-        visitados[verticeInicial - 1] = true;
-
-        while (!fila.isEmpty()) {
-            int verticeAtual = fila.poll();
-
-            for (int vizinho = 1; vizinho <= this.numeroVertices; vizinho++) {
-                if (this.matrizValores[verticeAtual - 1][vizinho - 1] != 0.0) {
-                    if (!visitados[vizinho - 1]) {
-                        fila.add(vizinho);
-                        visitados[vizinho - 1] = true;
-                }
-                    if(visitados[vizinho - 1] && verticeAtual != (vizinho)){
-                         return true;
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i<visitados.length; i++){
-            if (!visitados[i]){
-                if(verificaCiclos(i)){
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }*/
 
     public boolean verificaCiclos() {
         boolean[] visitados = new boolean[this.numeroVertices];
@@ -291,12 +257,14 @@ public class Grafo{
                         visitados[vizinho - 1] = true;
                         pais[vizinho - 1] = verticeAtual; // Define o pai do vizinho
                     } else if (pais[verticeAtual - 1] != vizinho) { // Vizinho visitado, mas não é pai
-                        return true; // Ciclo encontrado
+                         // Ciclo encontrado
+                        return true;
                     }
                 }
             }
         }
-        return false; // Nenhum ciclo encontrado nesta componente
+         // Nenhum ciclo encontrado nesta componente
+        return false;
     }
 
 
@@ -351,36 +319,11 @@ public class Grafo{
     private String reconstruirCaminho(int[] predecessores, int vertice) {
         List<Integer> caminho = new ArrayList<>();
         for (int v = vertice; v != -1; v = predecessores[v]) {
-            caminho.add(v + 1); // Adiciona 1 para ajustar ao índice baseado em 1
+            caminho.add(v + 1);
         }
         Collections.reverse(caminho);
         return caminho.toString();
     }
 
-    //TESTE DA CLASSE
-    public static void main(String[] Args){
-        Locale.setDefault(Locale.US);
-        Grafo grafo = new Grafo("./dados/grafo2.txt");
-        grafo.mostrarMatriz();
-            
-        System.out.printf("Número de Vértices: %d\n", grafo.getOrdem());
-        System.out.printf("Número de Arestas: %d\n ", grafo.getTamanho());
-        System.out.printf("Densidade do Grafo: %.2f\n", grafo.getDensidade());
-
-        int vertice = 1;
-        List<Integer> vizinhos = grafo.vizinhos(vertice);
-        System.out.printf("Vizinhos do Vértice %d: %s\n", vertice, vizinhos);
-        
-        System.out.printf("Grau do vértice %d: %d\n", vertice, grafo.grauVertice(vertice));
-
-
-        if(grafo.verificaCiclos()){
-            System.out.println("O grafo possui ciclos!\n\n\n");
-        }else {
-            System.out.println("O grafo não possui ciclos!\n\n\n");
-        }
-
-        grafo.caminhoMinimo(vertice);        
-    }
 }
 
