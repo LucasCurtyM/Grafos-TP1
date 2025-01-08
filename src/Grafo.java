@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 public class Grafo{
@@ -324,6 +327,136 @@ public class Grafo{
         Collections.reverse(caminho);
         return caminho.toString();
     }
+
+    //Determinar a árvore geradora mínima de um grafo, utilizei algoritmo de prim
+   public void arvoreGeradoraMinimaPrim(String arquivoSaida) {
+    double[][] mst = new double[this.numeroVertices][this.numeroVertices];
+    boolean[] visitados = new boolean[this.numeroVertices];
+    double[] menorCusto = new double[this.numeroVertices];
+    int[] predecessores = new int[this.numeroVertices];
+
+    Arrays.fill(menorCusto, Double.POSITIVE_INFINITY);
+    menorCusto[0] = 0; // Começa pelo vértice 0
+    predecessores[0] = -1;
+
+    for (int i = 0; i < this.numeroVertices - 1; i++) {
+        int u = extrairMinimo(visitados, menorCusto);
+        visitados[u] = true;
+
+        for (int v = 0; v < this.numeroVertices; v++) {
+            if (this.matrizValores[u][v] != 0.0 && !visitados[v] && this.matrizValores[u][v] < menorCusto[v]) {
+                predecessores[v] = u;
+                menorCusto[v] = this.matrizValores[u][v];
+            }
+        }
+    }
+
+    // Construindo a MST e calculando o peso total
+    double pesoTotal = 0;
+    for (int i = 1; i < this.numeroVertices; i++) {
+        int u = predecessores[i];
+        if (u != -1) {
+            mst[u][i] = this.matrizValores[u][i];
+            mst[i][u] = this.matrizValores[i][u];
+            pesoTotal += this.matrizValores[u][i];
+        }
+    }
+
+    // Exibindo o peso total
+    System.out.printf("Peso total da árvore geradora mínima: %.2f\n", pesoTotal);
+
+    // Salvando a MST no arquivo
+    try (PrintWriter writer = new PrintWriter(new File(arquivoSaida))) {
+        for (int i = 0; i < this.numeroVertices; i++) {
+            for (int j = 0; j < this.numeroVertices; j++) {
+                writer.print(mst[i][j] + " ");
+            }
+            writer.println();
+        }
+        writer.printf("Peso total: %.2f\n", pesoTotal);
+    } catch (IOException e) {
+        System.out.println("Erro ao salvar a árvore geradora mínima: " + e.getMessage());
+    }
+}
+
+private int extrairMinimo(boolean[] visitados, double[] menorCusto) {
+    double min = Double.POSITIVE_INFINITY;
+    int indiceMinimo = -1;
+
+    for (int i = 0; i < this.numeroVertices; i++) {
+        if (!visitados[i] && menorCusto[i] < min) {
+            min = menorCusto[i];
+            indiceMinimo = i;
+        }
+    }
+    return indiceMinimo;
+}
+
+// IMplementação heuristica cobertura minima
+public List<Integer> coberturaMinimaPorHeuristica() {
+    // Lista para armazenar os vértices da cobertura
+    List<Integer> cobertura = new ArrayList<>();
+    
+    // Array para rastrear se um vértice já está na cobertura
+    boolean[] coberto = new boolean[numeroVertices];
+
+    // Enquanto ainda houver arestas na matriz
+    while (existeAresta()) {
+        // Encontrar o vértice com o maior grau (maior número de arestas conectadas)
+        int verticeEscolhido = -1;
+        int maxGrau = -1;
+
+        for (int i = 0; i < numeroVertices; i++) {
+            if (!coberto[i]) { // Apenas vértices não cobertos
+                int grau = calcularGrau(i);
+                if (grau > maxGrau) {
+                    maxGrau = grau;
+                    verticeEscolhido = i;
+                }
+            }
+        }
+
+        // Adicionar o vértice escolhido à cobertura
+        cobertura.add(verticeEscolhido + 1); // Adicionar 1 para representar os vértices como 1-based
+        coberto[verticeEscolhido] = true;
+
+        // Remover todas as arestas incidentes ao vértice escolhido
+        removerArestasDoVertice(verticeEscolhido);
+    }
+
+    return cobertura;
+}
+
+// Método para verificar se ainda existem arestas na matriz
+private boolean existeAresta() {
+    for (int i = 0; i < numeroVertices; i++) {
+        for (int j = 0; j < numeroVertices; j++) {
+            if (matrizValores[i][j] != 0) { // Existe aresta
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// Método para calcular o grau de um vértice
+private int calcularGrau(int vertice) {
+    int grau = 0;
+    for (int j = 0; j < numeroVertices; j++) {
+        if (matrizValores[vertice][j] != 0) { // Contar arestas conectadas
+            grau++;
+        }
+    }
+    return grau;
+}
+
+// Método para remover todas as arestas incidentes a um vértice
+private void removerArestasDoVertice(int vertice) {
+    for (int j = 0; j < numeroVertices; j++) {
+        matrizValores[vertice][j] = 0; // Remover aresta na linha
+        matrizValores[j][vertice] = 0; // Remover aresta na coluna
+    }
+}
 
 }
 

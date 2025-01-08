@@ -33,6 +33,8 @@ public class Menu {
             System.out.println("9- Verifica as componentes conexas partir do vértice V: ");
             System.out.println("10- Verifica se há ciclos no grafo: ");
             System.out.println("11- Distância e Caminho mínimo: ");
+            System.out.println("12- Salvar Árvore Geradora Mínima (Prim): ");
+            System.out.println("13- Cobertura mínima de vértices (Heurística): ");
             System.out.println("0- Sair");
 
             escolha = scanner.nextInt();
@@ -166,6 +168,24 @@ public class Menu {
                     grafo.caminhoMinimo(verticeInicial);
                     System.out.println("\n\n\n");
                     break;
+                
+                case 12:
+                    limparTela();
+                    System.out.println("Digite o caminho do arquivo para salvar a Árvore Geradora Mínima: ");
+                    scanner.nextLine(); // Consumir o '\n' restante
+                    String arquivoSaida = scanner.nextLine();
+                    grafo.arvoreGeradoraMinimaPrim(arquivoSaida);
+                    System.out.println("Árvore Geradora Mínima salva no arquivo: " + arquivoSaida);
+                    System.out.println("\n\n\n");
+                    break;
+                
+                case 13:
+                    limparTela();
+                    List<Integer> coberturaMinima = grafo.coberturaMinimaPorHeuristica();
+                    System.out.println("Cobertura mínima de vértices (Heurística): " + coberturaMinima);
+                    System.out.println("\n\n\n");
+                    break;
+
 
                 case 0:
                     limparTela();
