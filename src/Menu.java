@@ -17,9 +17,11 @@ public class Menu {
 
         System.out.println("Digite o caminho do arquivo de entrada: ");
         String caminhoArquivo = scanner.nextLine();
+
         System.out.println("\n\n\n");
         Grafo grafo = new Grafo(caminhoArquivo);
         int escolha;
+
         do {
             System.out.println("Digite a sua escolha!");
             System.out.println("1- Mostrar matriz de Valores: ");
@@ -33,82 +35,120 @@ public class Menu {
             System.out.println("9- Verifica as componentes conexas partir do vértice V: ");
             System.out.println("10- Verifica se há ciclos no grafo: ");
             System.out.println("11- Distância e Caminho mínimo: ");
+            System.out.println("12- Arvore Geradora Minima (Arquivo): ");
+            System.out.println("13- Cobertura Minima de vértices: ");
+            System.out.println("14- Emparelhamento máximo: ");
+            System.out.println("15- Centralidade de proximidade do vértice V: ");
             System.out.println("0- Sair");
 
             escolha = scanner.nextInt();
             System.out.println(escolha);
+
             switch (escolha) {
+
                 case 1:
-                    System.out.printf("\n\n\n");
                     limparTela();
+
                     System.out.printf("Matriz de Valores:\n");
                     grafo.mostrarMatriz();
+
                     System.out.printf("\n\n\n");
                     break;
 
                 case 2:
                     limparTela();
-                    System.out.printf("\n\n\nOrdem do Grafo: %d\n\n\n", grafo.getOrdem());
+
+                    System.out.printf("\n\n\nOrdem do Grafo: %d", grafo.getOrdem());
+
+                    System.out.println("\n\n\n");
                     break;
                 
                 case 3: 
                     limparTela();
-                    System.out.printf("\n\n\nTamanho do Grafo: %d\n\n\n", grafo.getTamanho());  
+
+                    System.out.printf("\n\n\nTamanho do Grafo: %d", grafo.getTamanho());  
+
+                    System.out.println("\n\n\n");
                     break;
                 
                 case 4:
                     limparTela();
-                    System.out.printf("\n\n\nDensidade do Grafo: %.2f\n\n\n", grafo.densidade());
+
+                    System.out.printf("\n\n\nDensidade do Grafo: %.2f", grafo.densidade());
+
+                    System.out.println("\n\n\n");
                     break;
           
                   case 5:
                     limparTela();
+
                     System.out.println("Escolha o Vértice V: ");
+
                     int escolhaVertice = scanner.nextInt();
                     if(escolhaVertice > grafo.getOrdem() || escolhaVertice < 1){
                         
-                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe!\n\n\n", escolhaVertice);
+                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe!", escolhaVertice);
                         break;
                     }
                     List<Integer> vizinho = grafo.vizinhos(escolhaVertice);
-                    System.out.printf("\n\n\nVizinhos de V(%d): %s\n\n\n", escolhaVertice, vizinho);
+                    System.out.printf("\n\n\nVizinhos de V(%d): %s", escolhaVertice, vizinho);
+
+                    System.out.println("\n\n\n");
                     break;
         
                 case 6:
                     limparTela();
+
                     System.out.println("Escolha o Vértice V: ");
                     escolhaVertice = scanner.nextInt();
+
                     if(escolhaVertice > grafo.getOrdem() || escolhaVertice < 1){
                         
-                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe no grafo!\n\n\n", escolhaVertice);
+                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe no grafo!", escolhaVertice);
+
+                        System.out.println("\n\n\n");
                         break;
                     }
-                    System.out.printf("\n\n\nGrau de V(%d): %d\n\n\n", escolhaVertice, grafo.grauVertice(escolhaVertice));
+
+                    System.out.printf("\n\n\nGrau de V(%d): %d", escolhaVertice, grafo.grauVertice(escolhaVertice));
+
+                    System.out.println("\n\n\n");
                     break;
     
                 case 7:
                     limparTela();
+
                     System.out.println("\n\n\nEscolha o Vértice V: ");
                     escolhaVertice = scanner.nextInt();
+
                     if(escolhaVertice > grafo.getOrdem() || escolhaVertice < 1){
                         
-                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe no grafo!\n\n\n", escolhaVertice);
+                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe no grafo!", escolhaVertice);
+
+                        System.out.println("\n\n\n");
                         break;
                     }
+
                    if(grafo.verificaArticulacao(escolhaVertice)){
-                       System.out.printf("\n\n\nO vértice "+ escolhaVertice +" é articulação!\n\n\n");
+                       System.out.printf("\n\n\nO vértice "+ escolhaVertice +" é articulação!");
                    }else {
-                       System.out.printf("\n\n\nO vértice "+ escolhaVertice +" não é articulação!\n\n\n");
+                       System.out.printf("\n\n\nO vértice "+ escolhaVertice +" não é articulação!");
                    }
+
+                    System.out.println("\n\n\n");
                     break;
 
                 case 8:
                     limparTela();
+
                     System.out.println("Escolha o Vértice V: ");
                     escolhaVertice = scanner.nextInt();
+
                     if(escolhaVertice > grafo.getOrdem() || escolhaVertice < 1){
                         
-                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe no grafo!\n\n\n", escolhaVertice);
+                        System.out.printf("\n\n\nValor inválido para Vértice, V(%d) não existe no grafo!", escolhaVertice);
+                        
+                        System.out.println("\n\n\n");
                         break;
                     }
 
@@ -128,12 +168,13 @@ public class Menu {
                     for (String aresta : foraDaArvore) {
                         System.out.println(aresta);
                     }
+
                     System.out.println("\n\n\n");
                     break;
                 
                 case 9:
                     limparTela();
-                    limparTela();
+
                     List<List<Integer>> componentes = grafo.componentesConexas();
 
                     System.out.println("Número de componentes conexas: " + componentes.size());
@@ -146,29 +187,90 @@ public class Menu {
             
                 case 10:
                     limparTela();
+
                     if(grafo.verificaCiclos()){
                         System.out.println("O grafo possui ciclos!\n\n\n");
                     }else{
                         System.out.println("O grafo não possui ciclos!\n\n\n");
                     }
+
+                    System.out.println("\n\n\n");
                     break;
 
                 case 11:
                     limparTela();
                     System.out.println("Escolha o Vértice V: ");
                     int verticeInicial = scanner.nextInt();
+
                     if(verticeInicial > grafo.getOrdem() || verticeInicial < 1){
-                        
                         System.out.printf("Valor inválido para Vértice, V(%d) não existe!\n\n\n", verticeInicial);
                         System.out.println("\n\n\n");
                         break;
                     }
-                    grafo.caminhoMinimo(verticeInicial);
+
+                    double[] distancias = new double[grafo.getOrdem()];
+                    distancias = grafo.caminhoMinimo(verticeInicial);
+
+                    System.out.printf("Caminho mínimo do vértice %d:\n", verticeInicial);
+                    for (int i = 0; i < distancias.length; i++) {
+                        System.out.printf("Para o vértice %d: %.2f\n", i + 1, distancias[i]);
+                    }
+
                     System.out.println("\n\n\n");
                     break;
 
-                case 0:
+                case 12:
                     limparTela();
+                    
+                    grafo.arvoreGeradoraMinimaPrim();
+
+                    System.out.println("\n\n\n");
+                    break;
+
+                case 13:
+                    limparTela();
+
+                    List<Integer> cobertura = grafo.coberturaMinimaVertices();
+
+                    System.out.print("Cobertura Minima de vértices:" + cobertura);
+
+                    System.out.println("\n\n\n");
+                    break;
+
+                case 14:
+                    limparTela();
+                    
+                    List<int[]> emparelhamento = grafo.emparelhamentoMaximoEdmonds();
+
+                    System.out.println("Emparelhamento máximo:");
+                    for (int[] aresta : emparelhamento) {
+                        System.out.println("(" + aresta[0] + ", " + aresta[1] + ")");
+                    }
+
+                    System.out.println("\n\n\n");
+                    break;
+                
+                case 15:
+                    limparTela();
+                    System.out.println("Escolha o Vértice V: ");
+                    int vertice = scanner.nextInt();
+                    
+                    if(vertice > grafo.getOrdem() || vertice < 1){
+                        System.out.printf("Valor inválido para Vértice, V(%d) não existe!\n\n\n", vertice);
+                        System.out.println("\n\n\n");
+                        break;
+                    }
+
+                    double centralidade = grafo.calcularCentralidadeDeProximidade(vertice);
+                    System.out.printf("Centralidade de proximidade do vértice %d é: ", vertice);
+                    System.out.printf("%.4f", centralidade);
+    
+                    System.out.println("\n\n\n");
+                    break;
+                
+                    case 0:
+                    limparTela();
+
                     System.out.println("\n\n\nEncerrando...\n\n\n");
                     
                     break;
@@ -178,6 +280,7 @@ public class Menu {
                     System.out.println("Opção inválida!\n\n\n");
                     break;
             }
+
         } while (escolha != 0);
         scanner.close();
     }
